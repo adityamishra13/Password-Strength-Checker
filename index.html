@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Indicator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="input-box">
+            <input type="password" id="password" placeholder="enter your password">
+            <button type=""><img id="image" src="images.png" alt="" onclick="showHide()"></button>
+
+            <p id="message">Password Strength : <span id="strength"></span> </p>
+        </div>
+    </div>
+
+    <script>
+
+        var pass = document.getElementById("password");
+        var msg = document.getElementById("message");
+        var str = document.getElementById("strength");
+        //   var btn=document.querySelector('button');
+
+        //   btn.addEventListener('click',()=>{
+
+        function showHide() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+                image.src = "hide.png";
+            } else {
+                x.type = "password";
+                image.src = "images.png";
+            }
+        }
+
+
+        let regExpWeak = /[a-z]/;
+        let regExpMedium = /\d+/;
+        let regExpStrong = /[!@#$%^&*?_~.,()-]/;
+;
+       
+        pass.addEventListener('input', () => {
+
+            let no=-1;
+            if(pass.value.length==0) no=0;
+              
+        if (pass.value.length <= 4 && (pass.value.match(regExpWeak) || pass.value.match(regExpMedium) || pass.value.match(regExpStrong))) no = 1;
+        if (pass.value.length >= 6 && ((pass.value.match(regExpWeak) && pass.value.match(regExpMedium)) || (pass.value.match(regExpMedium) && pass.value.match(regExpStrong)) || (pass.value.match(regExpWeak) && pass.value.match(regExpStrong)))) no = 2;
+        if (pass.value.length >= 8 && pass.value.match(regExpWeak) && pass.value.match(regExpMedium) && pass.value.match(regExpStrong)) no = 3;
+
+            if (pass.value.length > 0) {
+                msg.style.display = "block";
+            }
+            else {
+                msg.style.display = "none";
+            }
+           
+            if(no==0) {
+                pass.style.borderColor = "white";
+            }
+            if (no==1) {
+                str.innerHTML = "Weak";
+                pass.style.borderColor = "#ff5925";
+                msg.style.color = "#ff5925";
+            }
+            else if (no==2) {
+                str.innerHTML = "Medium";
+                pass.style.borderColor = "yellow";
+                msg.style.color = "yellow";
+            }
+            else if(no==3){
+                str.innerHTML = "Strong";
+                pass.style.borderColor = "green";
+                msg.style.color = "green";
+            }
+
+        })
+    </script>
+
+</body>
+
+</html>
